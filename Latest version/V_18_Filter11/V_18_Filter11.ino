@@ -287,13 +287,11 @@ void AkkuVolt()
 // ###############################################################################################################
 void PiepserX()
 {
-  //Vario = 1.00; // Sound test! Comment out during normal operation!
+  //Vario = 8.00; // Sound test! Comment out during normal operation!
 
     float frequency = -0.33332*Vario*Vario*Vario*Vario + 9.54324*Vario*Vario*Vario - 102.64693*Vario*Vario + 512.227*Vario + 84.38465;
 
-    float duration = 1.6478887*Vario*Vario -38.2889*Vario + 341.275253; // Variable Pause
-
-   
+    float duration = 1.6478887*Vario*(Vario/2) -38.2889*Vario + 341.275253; // Variable Pause
   
     frequency = int(frequency);
     duration = long(duration);
