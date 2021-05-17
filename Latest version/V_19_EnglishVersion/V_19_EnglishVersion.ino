@@ -72,6 +72,7 @@ long Pressure, Pressure0, PressureB;
 int PinBT,  XOR, c, startCH = 0, Vbat;
 float Vario, VarioR, Height, AvrgV, Batt, Temp;
 
+// TimeS is time from start (micros)
 unsigned long  dTime, timeE, TimeS, TimePip;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,14 +80,14 @@ unsigned long  dTime, timeE, TimeS, TimePip;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   BaroReadTimeVR = BaroReadTimeVR - 34;
-  // BaroReadTimeVR = BaroReadTimeVR - 34; // Wenn BT Eingebaut ist. 
+  // BaroReadTimeVR = BaroReadTimeVR - 34; // Whit built in BT.
   // readtime = readtime - 34; // If BT is built in.
 
   Serial.begin(9600);
   // Serial1.begin(9600);
 
   pinMode(bt_pin, INPUT);                 // Defines the pin for the BT switch.
-  PinBT = digitalRead(bt_pin);            // Define stop status for BT.
+  PinBT = digitalRead(bt_pin);            // Read the button status for BT.
   //PinBT = 0;                            // If no BT module is installed. Comment out the top two.
 
   pinMode(7, OUTPUT);                     // Pin to the BT supply.
@@ -105,10 +106,9 @@ void setup() {
     delay(500);
   }
 
-  // Rename BT START
+  // BT START, if button is pressed, start bluetooth module.
   if (PinBT == 1)
   {
-    Serial.print("Attivato bluetooth");
     digitalWrite(7, HIGH);               // Switch on BT supply.
     digitalWrite(8, HIGH);               // Switch on BT supply.
     delay(1000);
