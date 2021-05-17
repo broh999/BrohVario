@@ -56,11 +56,13 @@ short bt_pin = 2;                       // Bluetooth pin. For Leonardo 14. For t
 
 int a_pin1 = 6;                         // Speaker pin.
 
+float min_batt = 7.20;                  // Minimum voltage, start the alarm on the buzzer.
+
 // filter settings !!! Make the narrowing here very carefully!
 float ErrorV = 3.000 * min_climb;    // Calculate weighting for Vario filter. (ErrorV) 0.1 > ErrorV < 1.0
 
-float medium_n = 3;                     // Calculate number of values for average value.
-float kal[4];                           // kal[n] ==> n = medium_n +1
+float medium_n = 6;                     // Calculate number of values for average value.
+float kal[7];                           // kal[n] ==> n = medium_n +1
 
 short BatV = A3;                        // Define battery voltage pin!
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +279,16 @@ void CalculateClimb()
 void AkkuVolt()
 {
 	Vbat = analogRead(BatV);
-	Batt = 1000.0 + 100.0*(1 - (4.16 - Vbat*(3.30/1023.00)/0.76904762)/0.85);  //  Ist10k/(Ist3k+Ist10k)=0.76904762
+	//Batt = 1000.0 + 100.0*(1 - (4.16 - Vbat*(3.30/1023.00)/0.76904762)/0.85);  //  Ist10k/(Ist3k+Ist10k)=0.76904762
+  Batt = (Vbat * 5.0/1023.0)*2.0;
+  if (Batt <= min_batt)
+  {
+    if ( (millis() - TimePip) >= (unsigned long)(3 * 300) )
+        {
+          TimePip = millis();
+          tone( a_pin1 , 300, 300 );
+        }
+  }
     /*
     Temp note
     Using 2S lipo (8.4 max voltage) with 10k+10k voltage divider.
@@ -294,7 +305,7 @@ void AkkuVolt()
 // ###############################################################################################################
 void BuzzerSound()
 {
-  //Vario = 9.00; // Sound test! Comment out during normal operation!
+  //Vario = 2.00; // Sound test! Comment out during normal operation!
 
     float frequency = -0.33332*Vario*Vario*Vario*Vario + 9.54324*Vario*Vario*Vario - 102.64693*Vario*Vario + 512.227*Vario + 84.38465;
 
@@ -306,7 +317,7 @@ void BuzzerSound()
     // If the climb is greater than the min_climb
     if ( Vario >= min_climb)
     {
-        if ( (millis() - TimePip) >= (unsigned long)(2 * duration) )
+        if ( (millis() - TimePip) >= (unsigned long)(1.5 * duration) )
         {
           TimePip = millis();
           tone( a_pin1 , int(frequency), int(duration) );
@@ -440,7 +451,7 @@ void Bloetooth()
     AkkuVolt();
     
     String s = "LK8EX1,";
-    s = String(s + String(Pressure,DEC) + ",99999,9999," + String(Temp,1) + "," + String(Batt,0) + ",");
+    s = String(s + String(Pressure,DEC) + ",99999,9999," + String(Temp,1) + "," + String(Batt,2) + ",");
 
     // Calculate the checksum and output it as an int
     // is required as HEX in the NMEA data set
