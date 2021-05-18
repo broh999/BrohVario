@@ -15,3 +15,7 @@ I forked it to adapt to my hardware, I want to recycle an arduino nano board I o
 - Completely translated to English
 - Updated to work with 2S lipo battery (and sending voltage via BT)
 - TODO: working on low voltage audible warning
+
+## Wiring
+
+Currently IvkoPivko wiring are attached, I will replace these with my 2S version asap.
