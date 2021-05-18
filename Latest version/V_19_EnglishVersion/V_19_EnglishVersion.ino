@@ -274,27 +274,27 @@ void CalculateClimb()
 
 
 
-// Battery voltage in % ##########################################################################################
+// Battery voltage reader ##########################################################################################
 // ###############################################################################################################
 void AkkuVolt()
 {
-	Vbat = analogRead(BatV);
+    Vbat = analogRead(BatV);
 	//Batt = 1000.0 + 100.0*(1 - (4.16 - Vbat*(3.30/1023.00)/0.76904762)/0.85);  //  Ist10k/(Ist3k+Ist10k)=0.76904762
-  Batt = (Vbat * 5.0/1023.0)*2.0;
-  if (Batt <= min_batt)
-  {
-    if ( (millis() - TimePip) >= (unsigned long)(3 * 300) )
-        {
-          TimePip = millis();
-          tone( a_pin1 , 300, 300 );
-        }
-  }
-    /*
-    Temp note
-    Using 2S lipo (8.4 max voltage) with 10k+10k voltage divider.
-    : Batt = (vbatt * 5.0/1023)*2
-    */
-
+    Batt = (Vbat * 5.0/1023.0)*2.0;
+    /*  TODO: Voltage alarm: This is needed with LiPo batteries to avoid the total
+        discarge
+        Temp note
+        Using 2S lipo (8.4 max voltage) with 10k+10k voltage divider.
+        : Batt = (vbatt * 5.0/1023)*2
+    */ 
+    if (Batt <= min_batt)
+    {
+        if ( (millis() - TimePip) >= (unsigned long)(3 * 300) )
+            {
+            TimePip = millis();
+            tone( a_pin1 , 300, 300 );
+            }
+    }
 }
 // #############################################################################################################*/ 
 // END ##########################################################################################################
