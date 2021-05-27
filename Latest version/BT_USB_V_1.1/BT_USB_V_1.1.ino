@@ -10,38 +10,30 @@ Features:
 
 
 Release notes:
-Version 1.
+Version 1.1
+
+Release candidate, before flight test.
+
 */
 
 #include <Wire.h>
 #include <MS5611.h>
 MS5611 bpm;
 
-
-
-long BaroReadTimeVR = 125;                    // Interval to read the Baro for audio Vario, standard (min) is 150.
 long BaroReadTimeBT = 100;                  // Interval to read the baro for BT, standard (min) is 100.
 
-long Pressure, Pressure0, PressureB;
+long Pressure;
 
 int PinBT,  XOR, c, startCH = 0, Vbat;
-float Vario, VarioR, Height, AvrgV, Batt, Temp;
+float Height, Batt, Temp;
 
-// TimeS is time from start (micros)
-unsigned long  dTime, timeE, TimeS, TimePip;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////// SETUP ///////////////////////////////
 
-// SETUP//////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
-  BaroReadTimeVR = BaroReadTimeVR - 34;
-  // BaroReadTimeVR = BaroReadTimeVR - 34; // Whit built in BT.
 
   Serial.begin(9600);
-
   pinMode(7, OUTPUT);                     // Pin to the BT supply.
   pinMode(8, OUTPUT);                     // Pin to the BT supply.
-
 
   // Initialize MS5611 sensor!
   // Ultra high resolution: MS5611_ULTRA_HIGH_RES
@@ -55,7 +47,7 @@ void setup() {
     delay(500);
   }
 
-  // BT START
+  /////////////////////////// BT START /////////////////////////////
   
     digitalWrite(7, HIGH);               // Switch on BT supply.
     digitalWrite(8, HIGH);               // Switch on BT supply.
@@ -70,99 +62,40 @@ void setup() {
       //Serial.print("AT+RESET");
       delay(500);//*/
     // PIN is 1234 or 0000 <= #################################################################################
-  //}
-  //else
-  //{
-  //  digitalWrite(7, LOW);               // Switch off BT supply.
-  //  digitalWrite(8, LOW);               // Switch off BT supply.
-  //}
-  // rename BT END * /
 
-  TimeS = micros();
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// END SETUP/////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// END SETUP ///////////////////////////////
 
+/////////////////////////   LOOP    ///////////////////////////////
 
-// LOOP///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop()
 {
     Bluetooth();
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ENDE LOOP//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////// END LOOP ////////////////////////////////
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//=> Sub-functions and programs///   /////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-// Read out the air pressure sensor###############################################################################
-// ###############################################################################################################
+///////////////////////// READ PRESSURE ///////////////////////////////
 void BaroReadout()
 {
   Temp = bpm.readTemperature();
   Pressure = bpm.readPressure(true);
   Height = bpm.getAltitude(Pressure);
 }
-// ###############################################################################################################
-// ENDE ##########################################################################################################
+
+
+////////////////////////// END PRESSURE ///////////////////////////////
 
 
 
 
 
-
-
-
-
-
-// Piepser (BUZZER) ##############################################################################################
-// ###############################################################################################################
-/*void BuzzerSound()
-{
-  //Vario = 2.00; // Sound test! Comment out during normal operation!
-
-    float frequency = -0.33332*Vario*Vario*Vario*Vario + 9.54324*Vario*Vario*Vario - 102.64693*Vario*Vario + 512.227*Vario + 84.38465;
-
-    //float duration = 1.6478887*Vario*(Vario/2) -38.2889*Vario + 341.275253; // Variable Pause
-    float duration = 300 - (25*Vario);
-    frequency = int(frequency);
-    duration = long(duration);
-  
-    // If the climb is greater than the min_climb
-    if ( Vario >= min_climb)
-    {
-        if ( (millis() - TimePip) >= (unsigned long)(1.5 * duration) )
-        {
-          TimePip = millis();
-          tone( a_pin1 , int(frequency), int(duration) );
-        }
-    }
-    // If sink is less than max_sink
-    if ( Vario <= max_sink)
-    {
-      tone(a_pin1 , 300, 150);
-      delay(125);
-      tone(a_pin1 , 200, 150);
-      delay(150);
-      tone(a_pin1 , 100, 150);
-      delay(175);
-    }
-}*/
-// ###############################################################################################################
-// END ##########################################################################################################
-
-
-
-// Bluetooth #####################################################################################################
-// ###############################################################################################################
-/*  Different communication protocols is possible.  */
+/////////////////////////// BLUETOOTH /////////////////////////////////
+///////  Different communication protocols is possible. //////////////
 
 void Bluetooth()
 {

@@ -139,17 +139,17 @@ void setup() {
 
 
   // Plays the starting tone sequence.
-  tone(a_pin1 , 100, 150);
+  tone(a_pin1 , 800, 100);
+  delay(200);
+  tone(a_pin1 , 1000, 100);
   delay(100);
-  tone(a_pin1 , 200, 150);
-  delay(100);
-  tone(a_pin1 , 400, 150);
-  delay(100);
-  tone(a_pin1 , 700, 150);
-  delay(100);
-  tone(a_pin1 , 1100, 150);
-  delay(100);
+  tone(a_pin1 , 1200, 200);
+  delay(200);
+  tone(a_pin1 , 1400, 150);
+  delay(200);
   tone(a_pin1 , 1600, 150);
+  delay(100);
+  tone(a_pin1 , 1800, 150);
   delay(200);
   // */
 
@@ -292,14 +292,14 @@ void AkkuVolt()
         Using 2S lipo (8.4 max voltage) with 10k+10k voltage divider.
         : Batt = (vbatt * 5.0/1023)*2
     */ 
-    if (Batt <= min_batt)
+    /*if (Batt <= min_batt)
     {
         if ( (millis() - TimePip) >= (unsigned long)(3 * 300) )
             {
             TimePip = millis();
             tone( a_pin1 , 300, 300 );
             }
-    }
+    }*/
 }
 // #############################################################################################################*/ 
 // END ##########################################################################################################
@@ -310,10 +310,9 @@ void AkkuVolt()
 // ###############################################################################################################
 void BuzzerSound()
 {
-  //Vario = 2.00; // Sound test! Comment out during normal operation!
-
+  //Vario = 4; // Sound test! Comment out during normal operation!
     float frequency = -0.33332*Vario*Vario*Vario*Vario + 9.54324*Vario*Vario*Vario - 102.64693*Vario*Vario + 512.227*Vario + 84.38465;
-
+    
     //float duration = 1.6478887*Vario*(Vario/2) -38.2889*Vario + 341.275253; // Variable Pause
     float duration = 300 - (25*Vario);
     frequency = int(frequency);
