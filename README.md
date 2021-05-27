@@ -16,6 +16,7 @@ I forked it to adapt to my hardware, I want to recycle an arduino nano board I o
 - Updated to work with 2S lipo battery (and sending voltage via BT)
 - TODO: working on low voltage audible warning
 
+<<<<<<< HEAD
 ### BT_USB Verion 1
 
 I decide to minimize the vario because my principal goal is to use it as a bluetooth external sensor to pair with [XCtrack](http://xctrack.org/).
@@ -31,3 +32,8 @@ I use it with a small powerbank, both inside a pocket of my paragliding harness.
 - If you squeeze the pocket, the sensor pressure change and XCTrack read a fake descent. When the pocket is released, the pressure decreases and XC read a fake climb. This happens for few seconds, but is better to choose a pocket that will be not squeezed and released during normal flight.
 - Most power-banks can switch off if the current draw isn't enough. This circuit is close to this value. Initially I resolve this issue leaving connected also the smartphone to the power bank (I've a 2 port power bank), then I found a smaller power-bank with a lower cut-off value that works perfectly also without the phone.
 
+=======
+## Wiring
+
+Currently IvkoPivko wiring are attached, I will replace these with my 2S version asap.
+>>>>>>> e56eb35a5b2241a6f7e6bd4878e056cb81b172ed
