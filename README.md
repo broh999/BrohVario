@@ -10,7 +10,11 @@ I forked it to adapt to my hardware, I want to recycle an arduino nano board I o
 
 ## Release notes
 
-### Version 20
+I work on two version:
+- FULL version: include two selectlable mode, Audio vario and bluetooth pressure sensor, and can be powered by a 2S LiPo
+- BT_USB: work only in BT mode and is powered from USB.
+
+### FULL V 20
 
 - Completely translated to English
 - Updated to work with 2S lipo battery (and sending voltage via BT)
